@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Cecil's Blog | Diary of a Not-So-Ordinary College Kid</title>
+
+    <!-- Tailwind is kept for layout utilities (optional) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- external libs -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+    <!-- ALL custom styles moved here (internal CSS) -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+        /* Page background */
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f4e9;
+            background-image: url('Vintage Film Frame Photo Collage Instagram Post.jpg');
+            background-attachment:scroll;
+            background-position: right;
+            background-repeat: no-repeat;
+            
+            color: #2b2b2b; /* darker default text for readability */
+        }
+
+        /* Semi-opaque overlay to improve contrast over the busy bg image */
+        
+
+        header.site-header {
+            padding: 0.6rem 1rem;
+            position: sticky;
+            top: 0;
+            background: rgba(248,244,233,0.94);
+            backdrop-filter: blur(4px);
+            z-index: 50;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+        }
+
+        /* small utility fixes */
+        .handwritten {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.5px;
+        }
+
+        .diary-paper {
+            background-color: rgba(255, 253, 245, 0.95);
+            border: 1px solid #e0d6c2;
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08);
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .diary-paper::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 40px;
+            width: 1px;
+            height: 100%;
+            background: repeating-linear-gradient(to bottom, #e0d6c2, #e0d6c2 1px, transparent 1px, transparent 24px);
+        }
+
+        /* ink hover underline (keeps original behaviour but in CSS) */
+        .ink-effect {
+            position: relative;
+            display: inline-block;
+            color: inherit;
+            text-decoration: none;
+        }
+        .ink-effect::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #5a4a3a;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.28s ease;
+        }
+        .ink-effect:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .book-spine {
+            background: linear-gradient(90deg, #d4c8b0, #c4b9a3);
+            box-shadow: inset -2px 0 5px rgba(0,0,0,0.08);
+        }
+
+        /* Sidebar and sticky card tweaks */
+        aside .sticky-card {
+            position: sticky;
+            top: 2rem;
+        }
+
+        /* Featured post tweaks */
+        article.featured {
+            padding: 2rem;
+        }
+
+        /* Prose/content readability */
+        .prose {
+            color: #000;
+            line-height: 1.75;
+            font-size: 1.1rem;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.12); /* subtle lift from busy bg */
+        }
+
+        .prose p {
+            margin-bottom: 1.25rem;
+            text-indent: 2rem;
+            text-align: justify;
+        }
+
+        /* CTA */
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: #b46908; /* amber-ish */
+            color: #fff;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(180, 105, 8, 0.12);
+            transition: transform .12s ease, box-shadow .12s ease;
+        }
+        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(180, 105, 8, 0.18); }
+
+        /* Footer */
+        footer.site-footer {
+            background: #8a4f00; /* slightly softer than full black amber */
+            color: #fff6ea;
+            padding: 2rem 0;
+        }
+        footer.site-footer a { color: #ffeccf; text-decoration: none; }
+        footer.site-footer a:hover { text-decoration: underline; }
+
+        /* small responsive tweaks */
+        @media (max-width: 1024px) {
+            .diary-paper::before { left: 28px; }
+            .prose p { max-width: 60ch; }
+        }
+
+        @media (max-width: 640px) {
+            header.site-header { padding: 1rem; }
+            .page-overlay { backdrop-filter: blur(3px); }
+        }
+
+        /* background hover catcher (do not remove) */
+        .bg-catcher {
+        position: fixed;
+        inset: 0;                 /* full viewport */
+        z-index: 0;               /* behind header/main/footer which use higher z-index */
+        pointer-events: auto;     /* receive hover when cursor is over background areas */
+        background: transparent;  /* invisible */
+        }
+
+        /* When cursor is over empty background, make content translucent so bg image is more visible */
+        .bg-catcher:hover ~ header,
+        .bg-catcher:hover ~ main,
+        .bg-catcher:hover ~ footer,
+        .bg-catcher:hover ~ .page-overlay {
+        opacity: 0.18;            /* adjust level of transparency (0.0 - 1.0) */
+        transition: opacity 200ms ease;
+        /* keep pointer events on the page content so links/buttons still work (only when not hovered) */
+        }
+
+        /* Prevent content from becoming non-interactive after hover (restore on mouseout) */
+        header, main, footer, .page-overlay {
+        will-change: opacity;
+        transition: opacity 200ms ease;
+        }
+
+        /* If you want inner cards (diary-paper) also to fade faster: */
+        .bg-catcher:hover .diary-paper {
+        opacity: 0.12;
+        transition: opacity 200ms ease;
+        }
+
+        /* Hero Section */
+        .hero-section {
+        position: relative;
+        background: rgba(251, 235, 178, 0.7); /* soft amber tone */
+        padding: 14rem 1.5rem;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .hero-section h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #78350f; /* amber-900 */
+        font-family: 'Playfair Display', serif;
+        margin-bottom: 1rem;
+        }
+
+        @media (min-width: 768px) {
+        .hero-section h2 {
+            font-size: 2.25rem;
+        }
+        }
+
+        .hero-section p {
+        font-size: 1.5rem;
+        line-height: 1.75;
+        color: #92400e; /* amber-800 */
+        max-width: 38ch;
+        margin: 0 auto;
+        }
+
+        aside .sticky-card {
+        position: sticky;
+        top: 4.25rem; /* adjust this if your header is taller/shorter (4.25rem ≈ 68px) */
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <body class="min-h-screen">
+    <div class="bg-catcher" aria-hidden="true"></div>
+
+    <!-- overlay element moved to internal CSS class -->
+    <div class="page-overlay"></div>
+
+    <header class="site-header">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i data-feather="book-open" class="text-amber-900"></i>
+                <h1 class="text-2xl md:text-3xl font-bold handwritten text-amber-900">Cecil's Blog</h1>
+            </div>
+
+            <nav class="hidden md:block sticky top-4">
+                <ul class="flex space-x-6">
+                    <li><a href="#hero-section" class="ink-effect text-lg hover:text-amber-800 transition">Home</a></li>
+                    <li><a href="#b" class="ink-effect text-lg hover:text-amber-800 transition">Entries</a></li>
+                    <li><a href="contact.html" class="ink-effect text-lg hover:text-amber-800 transition">Contact</a></li>
+                    <li><a href="about.html" class="ink-effect text-lg hover:text-amber-800 transition">About</a></li>
+                </ul>
+            </nav>
+
+            <button class="md:hidden">
+                <i data-feather="menu" class="text-amber-900 w-5 h-5"></i>
+            </button>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero-section relative bg-amber-80 py-16 md:py-24">
+        <div class="w-full mx-auto my-20 px-4 py-16 flex items-center justify-center relative">
+            <!-- Left GIF -->
+            <img src="me.gif" alt="left gif"
+                class="absolute left-0 top-1/2 -translate-y-1/2 w-1/4 h-auto" />
+
+            <!-- Centered Text -->
+            <div class="text-center max-w-4xl mx-auto relative z-10">
+                <h2 class="text-3xl md:text-5xl font-bold handwritten text-amber-900 mb-4">
+                Welcome to my corner of busyness and chikas
+                </h2>
+                <p class="text-lg md:text-xl text-amber-800">
+                Here’s where I spill the tea on everything from 8 a.m. lectures to midnight adventures.
+                </p>
+            </div>
+
+            <!-- Right GIF -->
+            <img src="me2.gif" alt="right gif"
+                class="absolute right-0 top-1/2 -translate-y-1/2 w-1/4 h-auto" />
+            </div>
+
+        </section>
+
+
+    <main class="container mx-auto px-4 md:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Sidebar -->
+            <aside id="b" class="lg:col-span-1 w-64" data-aos="fade-right">
+                <div class="diary-paper p-4 h-full">
+                    <div class="sticky-card">
+                        <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-20 h-auto">
+                            <img src="me3.jpeg" 
+                                alt="Cecil B. Belleza" 
+                                class="w-full h-auto shadow-md border border-amber-200" />
+                        </div>
+                        <h3 class="font-semibold text-lg">Cecil B. Belleza</h3>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 class="font-medium text-amber-800 mb-2 text-sm">Recent Entries</h4>
+                            <ul class="space-y-2">
+                                <li><a href="#a" class="ink-effect hover:text-amber-700">Balance Beyond the Busy</a></li>
+                                <li><a href="#" class="ink-effect hover:text-amber-700">Second Entry Title</a></li>
+                                <li><a href="#" class="ink-effect hover:text-amber-700">Third Entry</a></li>
+                                <li><a href="#" class="ink-effect hover:text-amber-700">Fourth Entry</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 class="font-medium text-amber-800 mb-2 text-sm">Categories</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <button data-category-btn="All" class="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-sm hover:bg-amber-200 transition">All</button>
+                                <button data-category-btn="Featured" class="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-sm hover:bg-amber-200 transition">Featured</button>
+                                <button data-category-btn="Studies" class="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-sm hover:bg-amber-200 transition">Studies</button>
+                                <button data-category-btn="Friends" class="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-sm hover:bg-amber-200 transition">Friends</button>
+                                <button data-category-btn="Thoughts" class="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-sm hover:bg-amber-200 transition">Thoughts</button>
+                                <button data-category-btn="Adventures" class="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-sm hover:bg-amber-200 transition">Adventures</button>
+                            </div>
+
+                        </div>
+
+
+                        <div class="border-t border-amber-200 pt-4">
+                            <h4 class="font-medium text-amber-800 mb-2 text-sm">Verse of the Day</h4>
+                            <p class="italic text-amber-900">"Education is not the learning of facts, but the training of the mind to think."</p>
+                            <p class="text-right text-sm mt-2">— Albert Einstein</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            
+            <!-- Main Content -->
+            <div id="a" class="lg:col-span-3 space-y-8">
+                <!-- Featured Post -->
+                <article class="diary-paper featured" data-category="Featured">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-sm text-amber-700">September 21, 2025</span>
+                        <span class="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-sm">Featured</span>
+                    </div>
+
+                    <h2 class="text-3xl font-bold mb-4 text-amber-900 handwritten">Balance Beyond the Busy</h2>
+
+                    <div class="prose max-w-none">
+                        <p class="mb-4">Have you ever wondered what quite strength it takes for someone to stay steady when life keeps piling on? We often admire people who seem to have everything under control, who move through bombard days as if they’ve mastered time itself. But behind the calm looking face of her, behind that person who knew she was is a heart that gets tired, a mind that questions and a soul that sometimes aches. Everyday there’s a silent tug-of-war the feeling of sitting in a fence: Who do I put first? What do I let go?</p>
+
+                        <p class="mb-4">People who believed in her, people who knew her as a person who takes everything in control as if she was born for it assumes that her life is just about school, that she spends her days buried in books. If only they knew, before she can open a notebook or read a book, she is a daughter. Morning to dusk, her hours are filled with the rhythm of home – from cleaning the whole house, washing the pile of dirty dishes, clothes and fetching water for their cow at the farm. By the time evening comes she was already exhausted, as she already poured her very last energy for the day in preparing their dinner. The world quiets down, her body is heavy with the day. Studying feels impossible, so she set her body to take a rest for a while, only to rise again at 2 a.m., chasing the silence to catch up on lessons. Because when the clock strikes 4 a.m. there she was back at the kitchen prepping breakfast and lunch, making sure their family is cared for before the sun shows up.</p>
+
+                        <p class="mb-6">Her parents expect her to handle the house first, and carry the responsibility with love. Still, there are moments that she feels the weight of it pressing on her chest, weighing her shoulders. That person is me. Yes, this person I am talking with you is me itself. I whisper a prayer of thanks – thanking God with the skills He gave me, the wisdom and the always on the go processing brain when people throw me questions. It is by grace of God that let me understand lessons even when I sleep is scarce. I am student leader, a broadcaster, a peer group facilitator. Some days, the roles blur together until I feel like I’m drowning in them. There are nights I want to disappear into quiet, to shut the world that I chose to live in.</p>
+
+                        <p class="mb-6">But I have learned in this life I have chosen, and this life that chose me to put god first when I pause, even for a moment, to let Him in – everything falls into their place. It’s not perfect balance, but a it is a constant, tender dance between duty and dream, exhaustion and hope. Giving up is not an option for us people with a dream to hope for. I’m not just busy, I’m becoming and in the still hours before dawn when our home sleep and the world is dark, I felt it most. The quiet truth that even chaos I am held, I am guided and I am enough.</p>
+                    </div>
+
+                    <div class="flex items-center justify-between border-t border-amber-200 pt-4">
+                        <div class="flex items-center space-x-2">
+                            <i data-feather="heart" class="text-amber-700 hover:text-rose-500 cursor-pointer"></i>
+                            <span class="text-sm">0</span>
+                            <i data-feather="message-square" class="ml-3 text-amber-700 hover:text-amber-900 cursor-pointer"></i>
+                            <span class="text-sm">0</span>
+                        </div>
+                        <a href="#" class="text-amber-800 hover:text-amber-900 font-medium flex items-center">
+                            Read more <i data-feather="arrow-right" class="ml-1 w-4 h-4"></i>
+                        </a>
+                    </div>
+                </article>               
+            </div>
+        </div>
+    </main>
+
+    <!-- Friends Section (hidden by default) -->
+    <div id="friends-section" class="diary-paper p-6 mt-12 hidden">
+    <h2 class="text-2xl font-bold text-amber-800 mb-4">Friends</h2>
+    <p class="text-gray-700 mb-6">
+        Here’s a glimpse of some of the amazing people I share laughter, late-night chikas, and adventures with. 💛
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Friend 1 -->
+        <div class="bg-amber-50 p-4 rounded-lg shadow-md text-center">
+        <img src="1.jpeg" alt="Friend 1" class="w-24 h-24 mx-auto ">
+        <img src="2.jpeg" alt="Friend 1" class="w-24 h-24 mx-auto ">        
+        <p class="text-sm text-gray-600">Partner-in-crime for weekend getaways.</p>
+        </div>
+
+        <!-- Friend 2 -->
+        <div class="bg-amber-50 p-4 rounded-lg shadow-md text-center">
+        <img src="3.jpeg" alt="Friend 2" class="w-24 h-24 mx-auto ">
+        <img src="4.jpeg" alt="Friend 1" class="w-24 h-24 mx-auto ">
+        <p class="text-sm text-gray-600">Study buddy and late-night snacker.</p>
+        </div>
+
+        <!-- Friend 3 -->
+        <div class="bg-amber-50 p-4 rounded-lg shadow-md text-center">
+        <img src="5.jpeg" alt="Friend 3" class="w-28 h-24 mx-auto ">
+        <p class="text-sm text-gray-600">The one who always has the funniest stories.</p>
+        </div>
+    </div>
+    </div>
+
+
+    <footer class="site-footer">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-xl font-semibold mb-4 handwritten">Diary of a Not-So-Ordinary College Kid</h4>
+                    <p class="mb-4">Late nights. Big dreams. Zero chill.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-amber-300"><i data-feather="instagram"></i></a>
+                        <a href="#" class="hover:text-amber-300"><i data-feather="twitter"></i></a>
+                        <a href="#" class="hover:text-amber-300"><i data-feather="bookmark"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-amber-300">Archive</a></li>
+                        <li><a href="#" class="hover:text-amber-300">Categories</a></li>
+                        <li><a href="#" class="hover:text-amber-300">About Me</a></li>
+                        <li><a href="#" class="hover:text-amber-300">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Subscribe</h4>
+                    <p class="mb-4">Get notified when new entries are posted.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 w-full rounded-l-md text-amber-900">
+                        <button class="bg-amber-700 hover:bg-amber-800 px-4 py-2 rounded-r-md">
+                            <i data-feather="send"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-amber-800 mt-8 pt-6 text-center text-sm">
+                <p>&copy; 2025 Cecil's Blog. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    
+
+    <!-- Bottom-left Background Hint -->
+    <div id="bg-hint" 
+        class="fixed bottom-6 left-6 flex items-center space-x-2 bg-white/90 text-amber-900 px-3 py-2 rounded-lg shadow-lg z-[999] transition-opacity duration-300 text-[.94rem]">
+        <i data-feather="corner-up-left" class="w-6 h-6"></i>
+        <span class="font-medium text-black text-base">Point your cursor here to see the background</span>
+    </div>
+
+
+    <script>
+        const bgHint = document.getElementById("bg-hint");
+        const footer = document.querySelector("footer");
+        const hero = document.querySelector(".hero-section");
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                bgHint.style.display = "none"; // hide when hero OR footer is visible
+            } else {
+                bgHint.style.display = "block"; // show when outside these sections
+            }
+            });
+        }, { threshold: 0.1 });
+
+        observer.observe(footer);
+        observer.observe(hero);
+    </script>
+
+
+    <!-- Mobile Background Toggle Button -->
+    <button id="bg-toggle" 
+        class="fixed bottom-6 left-6 bg-amber-700 text-white px-3 py-2 rounded-lg shadow-lg z-[999] md:hidden">
+        <i data-feather="image"></i>
+        <span class="ml-1">See Background</span>
+    </button>
+    <script>
+        const bgToggle = document.getElementById("bg-toggle");
+        const pageOverlay = document.querySelector(".page-overlay");
+        const header = document.querySelector("header");
+        const main = document.querySelector("main");
+        const footer1 = document.querySelector("footer");
+
+        let bgVisible = false;
+
+        bgToggle.addEventListener("click", () => {
+            bgVisible = !bgVisible;
+
+            if (bgVisible) {
+                // dim content so background shows
+                header.style.opacity = "0.18";
+                main.style.opacity = "0.18";
+                footer1.style.opacity = "0.18";
+                pageOverlay.style.opacity = "0.18";
+            } else {
+                // restore normal view
+                header.style.opacity = "1";
+                main.style.opacity = "1";
+                footer1.style.opacity = "1";
+                pageOverlay.style.opacity = "1";
+            }
+        });
+    </script>
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+        feather.replace();
+    </script>
+
+    <!-- Page transition CSS -->
+    <style>
+    /* exit animation: slide left + fade out */
+    .page-exit,
+    .page-exit * {
+        /* ensure children also transition nicely */
+        transition: transform 420ms ease, opacity 420ms ease !important;
+    }
+    .page-exit {
+        transform: translateX(-6%);
+        opacity: 0;
+        pointer-events: none; /* avoid double clicks while exiting */
+    }
+
+    /* small subtle enter animation (optional) */
+    .page-enter {
+        transform: translateY(6px);
+        opacity: 0;
+        transition: transform 420ms ease, opacity 420ms ease;
+    }
+    .page-enter-ready {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    </style>
+
+    <script>
+    (function () {
+        // duration must match the CSS transition (in ms)
+        const TRANSITION_DURATION = 420;
+
+        // add an enter animation on page load (optional, nice touch)
+        document.documentElement.classList.add('page-enter');
+        requestAnimationFrame(() => {
+        // allow styles to settle then add the class that reveals content
+        setTimeout(() => document.documentElement.classList.add('page-enter-ready'), 20);
+        // remove enter classes after transition
+        setTimeout(() => {
+            document.documentElement.classList.remove('page-enter', 'page-enter-ready');
+        }, TRANSITION_DURATION + 60);
+        });
+
+        // helper: check if link points to same document anchor
+        function isSameDocumentAnchor(link) {
+        try {
+            const url = new URL(link.href, location.href);
+            return (url.origin === location.origin && url.pathname === location.pathname && url.hash);
+        } catch (e) {
+            return false;
+        }
+        }
+
+        // Intercept navbar clicks
+        document.querySelectorAll('nav a').forEach(a => {
+        a.addEventListener('click', function (ev) {
+            const href = this.getAttribute('href') || '';
+
+            // If it's an in-page anchor (like "#section") or same-doc anchor -> smooth scroll
+            if (href.startsWith('#') || isSameDocumentAnchor(this)) {
+            ev.preventDefault();
+            // Resolve target
+            const hash = href.startsWith('#') ? href : new URL(this.href, location.href).hash;
+            if (hash && document.querySelector(hash)) {
+                document.querySelector(hash).scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                // fallback: smooth scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            return;
+            }
+
+            // For normal navigation: show exit animation then navigate
+            // if href is empty or just "javascript:void(0)" or "#", do nothing
+            if (!href || href === '#' || href.startsWith('javascript:')) {
+            ev.preventDefault();
+            return;
+            }
+
+            ev.preventDefault();
+
+            // add class to root to animate out
+            document.documentElement.classList.add('page-exit');
+
+            // ensure user sees the animation even for super-fast clicks
+            setTimeout(() => {
+            // do the navigation
+            location.href = href;
+            }, TRANSITION_DURATION);
+        });
+        });
+
+        // Optional: keyboard + accessibility fallback - if user presses Enter on focused nav link
+        document.querySelectorAll('nav a').forEach(a => {
+        a.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') a.click();
+        });
+        });
+    })();
+    </script>
+    <script>
+        const buttons = document.querySelectorAll("[data-category-btn]");
+        const posts = document.querySelectorAll("[data-category]");
+
+        buttons.forEach(btn => {
+            btn.addEventListener("click", () => {
+            const category = btn.dataset.categoryBtn;
+
+            posts.forEach(post => {
+                if (category === "All" || post.dataset.category === category) {
+                post.style.display = "block";
+                } else {
+                post.style.display = "none";
+                }
+            });
+            });
+        });
+        </script>
+    <script>
+    document.querySelectorAll("[data-category-btn]").forEach(btn => {
+        btn.addEventListener("click", () => {
+        const category = btn.dataset.categoryBtn;
+        const friendsSection = document.getElementById("friends-section");
+
+        // Show Friends section only if "Friends" button clicked
+        if (category === "Friends") {
+            friendsSection.classList.remove("hidden");
+            friendsSection.scrollIntoView({ behavior: "smooth" });
+        } else {
+            friendsSection.classList.add("hidden");
+        }
+        });
+    });
+    </script>
+
+
+</body>
+</html>

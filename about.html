@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cecil's Blog — About</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+    :root{
+      --amber-900: #78350f;
+      --amber-800: #92400e;
+      --amber-700: #b46908;
+      --paper: rgba(255,253,245,0.95);
+    }
+
+    body{
+      font-family: 'Cormorant Garamond', serif;
+      margin:0; padding:0; background-color:#f8f4e9; color:#2b2b2b;
+      background-image: url('Vintage Film Frame Photo Collage Instagram Post.jpg');
+      background-position:right; background-repeat:no-repeat; background-attachment:scroll;
+    }
+
+    header.site-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 0.6rem 1rem;
+      background: rgba(248,244,233,0.94);
+      backdrop-filter: blur(4px);
+      z-index: 60;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    }
+
+    main { padding-top: 5.25rem; }
+
+    .diary-paper{ background: var(--paper); border:1px solid #e0d6c2; box-shadow:0 6px 22px rgba(0,0,0,0.06); border-radius:8px; }
+
+    .handwritten { font-family: 'Playfair Display', serif; }
+
+    .bio-photo { width: 220px; height: auto; }
+
+    @media (max-width: 768px) { .bio-photo { width: 140px; } }
+  </style>
+</head>
+<body class="min-h-screen">
+
+  <header class="site-header">
+    <div class="container mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <i data-feather="book-open" class="text-amber-900"></i>
+        <div>
+          <h1 class="handwritten text-xl md:text-2xl font-bold text-amber-900">Diary of a Not-So-Ordinary College Kid</h1>
+          <div class="text-xs text-amber-800">Cecil B. Belleza</div>
+        </div>
+      </div>
+
+      <nav class="hidden md:block">
+        <ul class="flex items-center gap-6">
+          <li><a href="diary.html" class="ink-effect text-base hover:text-amber-800 transition">Home</a></li>
+          <li><a href="diary.html#b" class="ink-effect text-base hover:text-amber-800 transition">Entries</a></li>
+          <li><a href="contact.html" class="ink-effect text-base hover:text-amber-800 transition">Contact</a></li>
+          <li><a href="about.html" class="ink-effect text-base hover:text-amber-800 transition font-semibold">About</a></li>
+        </ul>
+      </nav>
+
+      <button class="md:hidden" aria-label="Open menu">
+        <i data-feather="menu" class="text-amber-900 w-5 h-5"></i>
+      </button>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 md:px-8 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Sidebar -->
+      <aside class="lg:col-span-1">
+        <div class="diary-paper p-6 sticky top-[6.5rem]">
+          <div class="flex items-center gap-4 mb-4">
+            <img src="me3.jpeg" alt="Cecil" class="bio-photo rounded-md shadow-md object-cover" />
+            <div>
+              <h3 class="font-semibold text-lg">Cecil B. Belleza</h3>
+              <div class="text-sm text-amber-800">Student · Broadcaster · Dreamer</div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <h4 class="font-medium text-amber-800 mb-2 text-sm">Quick Facts</h4>
+            <ul class="text-sm space-y-1">
+              <li>📍 Partido State University</li>
+              <li>🎓 Communication Studies</li>
+              <li>🎙️ Student radio host</li>   
+            </ul>
+          </div>
+
+          <div class="border-t border-amber-200 pt-4">
+            <h4 class="font-medium text-amber-800 mb-2 text-sm">Contact</h4>
+            <div class="text-sm">cecillebell25@gmail.com</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main About Content -->
+      <section class="lg:col-span-2">
+        <article class="diary-paper p-8">
+          <h2 class="text-2xl handwritten font-bold text-amber-900 mb-2">About Cecil</h2>
+          <p class="text-amber-800 mb-4">I’m Cecil — juggling lectures, leadership, and late-night study sessions while learning how to keep balance. I write about student life, small victories, and the messy, beautiful process of becoming.</p>
+
+          <h3 class="font-semibold mt-6 mb-3">My Story</h3>
+          <p class="mb-4">Born and raised in a small town, I grew up with a love for learning and a habit of reading. Between helping at home and attending classes, I discovered radio, community work, and a knack for storytelling. This blog is a collection of that mess and the lessons it brings.</p>
+
+          <h3 class="font-semibold mt-6 mb-3">Skills & Interests</h3>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <div class="font-medium">Creative</div>
+              <ul class="list-disc pl-5 mt-1">
+                <li>Broadcasting</li>
+                <li>Writing & Editing</li>
+              </ul>
+            </div>
+            <div>
+              <div class="font-medium">Music</div>
+              <ul class="list-disc pl-5 mt-1">
+                <li>Singing</li>
+                <li></li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 class="font-semibold mt-6 mb-3">Timeline</h3>
+          <ol class="list-decimal pl-5 text-sm">
+            <li><strong>2023</strong> — Joined Campus Journalism</li>
+            <li><strong>2024</strong> — Joined student radio</li>
+            <li><strong>2025</strong> — Started university studies</li>
+          </ol>
+
+          <h3 class="font-semibold mt-6 mb-3">A few favorites</h3>
+          <p class="mb-4 text-sm">Cake, yakult, quiet libraries, and conversations that last until dawn.</p>
+
+          <div class="mt-6">
+            <a href="contact.html" class="cta-btn inline-flex items-center">Get in touch <i data-feather="arrow-right" class="ml-2 w-4 h-4"></i></a>
+          </div>
+        </article>
+
+        <!-- Extra: Testimonials / Quotes -->
+        <div class="diary-paper mt-6 p-6">
+          <h4 class="font-medium mb-3">What people say</h4>
+          <blockquote class="italic text-sm text-amber-800">"Cecil writes with warmth and honesty — a voice worth reading." — Friend</blockquote>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer mt-12">
+    <div class="container mx-auto px-4 md:px-8 py-8 text-center">
+      <p class="text-sm">&copy; 2025 Cecil's Blog. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    AOS.init({ duration: 700, easing: 'ease-in-out', once: true });
+    feather.replace();
+  </script>
+</body>
+</html>
